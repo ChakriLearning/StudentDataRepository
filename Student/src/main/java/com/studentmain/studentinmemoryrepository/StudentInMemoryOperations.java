@@ -15,85 +15,79 @@ public class StudentInMemoryOperations implements StudentOperations {
     private int studentChoie;
     Scanner scanner = new Scanner(System.in);
 
-    public StudentInMemoryOperations(int choice) {
-        this.studentChoie = choice;
-    }
+    public StudentInMemoryOperations() {}
     public StudentInMemoryOperations(int rollNo, String name, int age, int phoneNo) {
         this.rollNo = rollNo;
         this.name = name;
         this.age = age;
         this.phoneNo = phoneNo;
     }
-    public void takeActionByStudentChoice() {
-        switch (studentChoie) {
-            case 1 :   // add student data
+    public void addStudentData() {
+        setRollNo();
+        setName();
+        setAge();
+        setPhoneNo();
+        storeItInMemory();
+        System.out.println("Student added successfully");
+    }
+    public void displayStudentsInfo() {
+        System.out.println("-------------Student Info---------------");
+        for (StudentInMemoryOperations student : studentInfo) {
+            System.out.println(student);
+        }
+        System.out.println("-------------Student Info---------------");
+    }
+    public void deleteStudentData() {
+        System.out.print("Enter student rollNo to Delete: ");
+        int roll = scanner.nextInt();
+        scanner.nextLine();
+        boolean found = false;
+        Iterator<StudentInMemoryOperations> iterator = studentInfo.iterator();
+        while(iterator.hasNext()) {
+            found = true;
+            StudentInMemoryOperations student = iterator.next();
+            if(student.getRollNo() == roll) {
+                // studentInfo.remove(student);
+                iterator.remove();
+                break;
+            }
+        }
+        if(found) {
+            System.out.println(" Student details deleted Successfully");
+        } else {
+            System.out.println("Student not Found");
+        }
+    }
+    public void updateStudentData() {
+        System.out.print("Enter studnet rollNo To Update: ");
+        int roll = scanner.nextInt();
+        scanner.nextLine();
+
+        boolean found = false;
+        Iterator<StudentInMemoryOperations> iterators = studentInfo.iterator();
+        while(iterators.hasNext()) {
+            found = true;
+            StudentInMemoryOperations student = iterators.next();
+            if(student.getRollNo() == roll) {
+                iterators.remove();
                 setRollNo();
                 setName();
                 setAge();
                 setPhoneNo();
                 storeItInMemory();
-                System.out.println("Student added successfully");
-                break;
-            case 2 :  //display student info;
-                System.out.println("-------------Student Info---------------");
-                for (StudentInMemoryOperations student : studentInfo) {
-                    System.out.println(student);
-                }
-                System.out.println("-------------Student Info---------------");
-                break;
-            case 3 :  //delete specific student data
-                System.out.print("Enter student rollNo to Delete: ");
-                int roll = scanner.nextInt();
-                scanner.nextLine();
-                boolean found = false;
-                Iterator<StudentInMemoryOperations> iterator = studentInfo.iterator();
-                while(iterator.hasNext()) {
-                    found = true;
-                    StudentInMemoryOperations student = iterator.next();
-                    if(student.getRollNo() == roll) {
-                       // studentInfo.remove(student);
-                        iterator.remove();
-                        break;
-                    }
-                }
-                if(found) {
-                    System.out.println(" Student details deleted Successfully");
-                } else {
-                    System.out.println("Student not Found");
-                }
                 break;
 
-            case 4 :   //update specific student data
-                System.out.print("Enter studnet rollNo To Update: ");
-                roll = scanner.nextInt();
-                scanner.nextLine();
+            }
+        }
+        if(found) {
+            System.out.println(" Student details Updated Successfully");
+        } else {
+            System.out.println("Student RollNo not Found");
+        }
+    }
+    public void takeActionByStudentChoice() {
+        switch (studentChoie) {
 
-                found = false;
-                Iterator<StudentInMemoryOperations> iterators = studentInfo.iterator();
-                while(iterators.hasNext()) {
-                    found = true;
-                    StudentInMemoryOperations student = iterators.next();
-                    if(student.getRollNo() == roll) {
-                        iterators.remove();
-                        setRollNo();
-                        setName();
-                        setAge();
-                        setPhoneNo();
-                        storeItInMemory();
-                        break;
-
-                    }
-                }
-                if(found) {
-                    System.out.println(" Student details Updated Successfully");
-                } else {
-                    System.out.println("Student RollNo not Found");
-                }
-                break;
-            case 0 :
-                System.exit(0);
-            default:
-                System.out.println("Invalid Choice");
         }
     }
     public void setRollNo() {
